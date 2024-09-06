@@ -1,1 +1,72 @@
-<p>home works!</p>
+<div class="min-h-screen bg-gray-100">
+    <!-- Header -->
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold text-gray-900">Welcome to Espace d'Aide</h1>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <!-- Welcome message -->
+            <div class="px-4 py-6 sm:px-0">
+                <div class="border-4 border-dashed border-gray-200 rounded-lg h-96 flex items-center justify-center">
+                    <div class="text-center">
+                        <ng-container *ngIf="currentUser$ | async as user; else guestMessage">
+                            <h2 class="text-2xl font-semibold text-gray-900">Hello, {{ user.name }}!</h2>
+                            <p class="mt-2 text-gray-600">How can we assist you today?</p>
+                        </ng-container>
+                        <ng-template #guestMessage>
+                            <h2 class="text-2xl font-semibold text-gray-900">Welcome, Guest!</h2>
+                            <p class="mt-2 text-gray-600">Please sign in to access our services.</p>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature cards -->
+            <div class="mt-8 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Reclamations card -->
+                <mat-card class="hover:shadow-lg transition-shadow duration-300">
+                    <mat-card-header>
+                        <mat-card-title>Reclamations</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>Submit or view your reclamations here.</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" routerLink="/reclamations">View Reclamations</button>
+                    </mat-card-actions>
+                </mat-card>
+
+                <!-- Appointments card -->
+                <mat-card class="hover:shadow-lg transition-shadow duration-300">
+                    <mat-card-header>
+                        <mat-card-title>Appointments</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>Schedule or manage your appointments with our experts.</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" routerLink="/appointments">Manage
+                            Appointments</button>
+                    </mat-card-actions>
+                </mat-card>
+
+                <!-- Expert Directory card -->
+                <mat-card class="hover:shadow-lg transition-shadow duration-300">
+                    <mat-card-header>
+                        <mat-card-title>Expert Directory</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>Browse our directory of experts and their specializations.</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" routerLink="/experts">View Experts</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+    </main>
+</div>
