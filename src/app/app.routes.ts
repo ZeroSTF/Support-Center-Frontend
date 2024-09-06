@@ -4,6 +4,7 @@ import { SigninComponent } from './components/signin/signin.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { MainComponent } from './components/main/main.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -17,6 +18,10 @@ export const routes: Routes = [
       {
         path: 'sign-in',
         component: SigninComponent,
+      },
+      {
+        path: 'sign-up',
+        component: RegisterComponent,
       },
     ],
   },

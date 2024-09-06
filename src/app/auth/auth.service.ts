@@ -136,16 +136,13 @@ export class AuthService {
    *
    * @param user
    */
-  // signUp(user: {
-  //     nom: string;
-  //     email: string;
-  //     password: string;
-  // }): Observable<any> {
-  //     return this._httpClient.post(
-  //         'http://localhost:8080/auth/register',
-  //         user
-  //     );
-  // }
+  signUp(user: {
+    name: string;
+    email: string;
+    password: string;
+  }): Observable<any> {
+    return this._httpClient.post('http://localhost:8080/auth/register', user);
+  }
 
   /**
    * Refresh access token
