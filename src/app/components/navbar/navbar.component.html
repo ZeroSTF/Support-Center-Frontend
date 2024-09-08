@@ -1,29 +1,48 @@
 <nav class="bg-white shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <div class="flex-shrink-0 flex items-center">
-                    <img class="h-8 w-auto" src="assets/logo.png" alt="Empower Logo">
-                </div>
-                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <a routerLink="/home" routerLinkActive="border-indigo-500 text-gray-900"
-                        class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        Home
-                    </a>
-                    <a routerLink="/reclamations" routerLinkActive="border-indigo-500 text-gray-900"
-                        class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        @if(!isAdmin){My} Reclamations
-                    </a>
-                    <a routerLink="/appointments" routerLinkActive="border-indigo-500 text-gray-900"
-                        class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        @if(!isAdmin){My} Appointments
-                    </a>
-                    <a routerLink="/experts" routerLinkActive="border-indigo-500 text-gray-900"
-                        class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        Experts Calender
-                    </a>
-                </div>
-            </div>
-        </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <!-- Logo Section -->
+      <div class="flex items-center">
+        <img class="h-8 w-auto" src="assets/logo.png" alt="Empower Logo" />
+        <span class="ml-2 text-xl font-semibold text-gray-800">Empower</span>
+      </div>
+
+      <!-- Links Section -->
+      <div class="hidden sm:flex sm:space-x-8">
+        <a routerLink="/home" routerLinkActive="border-indigo-500 text-gray-900"
+          class="border-transparent text-gray-500 hover:border-indigo-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          Home
+        </a>
+        <a routerLink="/reclamations" routerLinkActive="border-indigo-500 text-gray-900"
+          class="border-transparent text-gray-500 hover:border-indigo-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          @if(!isAdmin){My }Reclamations
+        </a>
+        @if(isAdmin){
+        <a routerLink="/decisions" routerLinkActive="border-indigo-500 text-gray-900"
+          class="border-transparent text-gray-500 hover:border-indigo-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          Decisions
+        </a>
+        <a routerLink="/experts" routerLinkActive="border-indigo-500 text-gray-900"
+          class="border-transparent text-gray-500 hover:border-indigo-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          Experts
+        </a>
+        }
+        <a routerLink="/appointments" routerLinkActive="border-indigo-500 text-gray-900"
+          class="border-transparent text-gray-500 hover:border-indigo-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          @if(!isAdmin){My }Appointments
+        </a>
+        <a routerLink="/experts" routerLinkActive="border-indigo-500 text-gray-900"
+          class="border-transparent text-gray-500 hover:border-indigo-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          Experts Calendar
+        </a>
+      </div>
+
+      <!-- Logout Button -->
+      <div class="flex items-center">
+        <button mat-raised-button color="primary" class="ml-4" (click)="logout()">
+          Logout
+        </button>
+      </div>
     </div>
+  </div>
 </nav>

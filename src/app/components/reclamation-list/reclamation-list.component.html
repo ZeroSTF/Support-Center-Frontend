@@ -1,1 +1,50 @@
-<p>reclamation-list works!</p>
+<div class="container mx-auto mt-8 p-4">
+    <h2 class="text-3xl font-bold mb-6 text-center">@if(!isAdmin){My }Reclamations</h2>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-blue-500 text-white">
+                <tr>
+                    <th class="py-3 px-6 text-left">Description</th>
+                    <th class="py-3 px-6 text-left">Date</th>
+                    <th class="py-3 px-6 text-left">Status</th>
+                    <th *ngIf="isAdmin" class="py-3 px-6 text-left">User</th>
+                    <th class="py-3 px-6 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let reclamation of reclamations" class="hover:bg-gray-100 transition-all">
+                    <td class="py-4 px-6 border-b border-gray-200">{{ reclamation.description }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">{{ reclamation.date | date:'medium' }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">
+                        <span class="px-3 py-1 rounded-full text-white" [ngClass]="{'bg-green-500': reclamation.status === 'Closed', 
+                                          'bg-yellow-500': reclamation.status === 'Pending'}">
+                            {{ reclamation.status }}
+                        </span>
+                    </td>
+                    <td *ngIf="isAdmin" class="py-4 px-6 border-b border-gray-200">{{ reclamation.user.name }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">
+                        @if(reclamation.status === 'Pending') {
+                        <button *ngIf="isAdmin" (click)="makeDecision(reclamation.id)" mat-raised-button color="primary"
+                            class="mr-2">
+                            Make Decision
+                        </button>
+                        }@else {
+                        <button *ngIf="!isAdmin" (click)="goToDecision(reclamation.id)" mat-raised-button
+                            color="primary" class="mr-2">
+                            View Decision
+                        </button>
+                        }
+                        <button *ngIf="!isAdmin" (click)="updateReclamation(reclamation.id)" mat-raised-button
+                            color="accent" class="mr-2">
+                            Update
+                        </button>
+                        <button (click)="deleteReclamation(reclamation.id)" mat-raised-button color="warn">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

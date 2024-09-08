@@ -5,6 +5,13 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { MainComponent } from './components/main/main.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ReclamationFormComponent } from './components/reclamation-form/reclamation-form.component';
+import { ReclamationListComponent } from './components/reclamation-list/reclamation-list.component';
+import { DecisionFormComponent } from './components/decision-form/decision-form.component';
+import { DecisionListComponent } from './components/decision-list/decision-list.component';
+import { ExpertListComponent } from './components/expert-list/expert-list.component';
+import { DecisionEditComponent } from './components/decision-edit/decision-edit.component';
+import { ReclamationDetailsComponent } from './components/reclamation-details/reclamation-details.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -31,10 +38,18 @@ export const routes: Routes = [
     canActivateChild: [AuthGuard],
     component: MainComponent,
     children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'reclamations', component: ReclamationListComponent },
+      { path: 'reclamation/new', component: ReclamationFormComponent },
+      { path: 'reclamation/edit/:id', component: ReclamationFormComponent },
+      { path: 'reclamation/:id/decide', component: DecisionFormComponent },
       {
-        path: 'home',
-        component: HomeComponent,
+        path: 'reclamation/:id/decision',
+        component: ReclamationDetailsComponent,
       },
+      { path: 'decisions', component: DecisionListComponent },
+      { path: 'decision/edit/:id', component: DecisionEditComponent },
+      { path: 'experts', component: ExpertListComponent },
     ],
   },
 ];

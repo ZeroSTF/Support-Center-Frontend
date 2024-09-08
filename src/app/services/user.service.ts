@@ -6,7 +6,7 @@ import { Observable, ReplaySubject, tap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private _httpClient = inject(HttpClient);
-  private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
+  private _user: ReplaySubject<any> = new ReplaySubject<User>(1);
   private baseUrl = 'http://localhost:8080/auth/';
 
   // -----------------------------------------------------------------------------------------------------
@@ -34,8 +34,22 @@ export class UserService {
   /**
    * Get the current signed-in user data
    */
-  get(): Observable<User> {
-    return this._httpClient.get<User>(this.baseUrl + 'current').pipe(
+  get(): Observable<any> {
+    // return new Observable<User>((observer) => {
+    //   observer.next({
+    //     id: 2,
+    //     name: 'rostom',
+    //     email: 'rostom@esprit.tn',
+    //     role: 'user',
+    //   });
+    //   this._user.next({
+    //     id: 2,
+    //     name: 'rostom',
+    //     email: 'rostom@esprit.tn',
+    //     role: 'user',
+    //   });
+    // });
+    return this._httpClient.get(this.baseUrl + 'current').pipe(
       tap((user) => {
         this._user.next(user);
       })

@@ -1,1 +1,31 @@
-<p>reclamation-form works!</p>
+<div class="container mx-auto mt-10 p-6 max-w-3xl">
+    <div class="bg-white shadow-lg rounded-lg p-6 space-y-6">
+        <h2 class="text-3xl font-semibold text-gray-800">
+            {{ isEditMode ? 'Edit Reclamation' : 'Create New Reclamation' }}
+        </h2>
+
+        <form [formGroup]="reclamationForm" (ngSubmit)="onSubmit()" class="space-y-4">
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description" rows="4" class="resize-none"
+                    placeholder="Enter your reclamation description"></textarea>
+                <mat-error *ngIf="reclamationForm.get('description')?.hasError('required')">
+                    Description is required
+                </mat-error>
+                <mat-error *ngIf="reclamationForm.get('description')?.hasError('minlength')">
+                    Description must be at least 10 characters long
+                </mat-error>
+            </mat-form-field>
+
+            <div class="flex justify-between items-center pt-4">
+                <button mat-raised-button color="primary" class="w-1/3" type="submit"
+                    [disabled]="!reclamationForm.valid">
+                    {{ isEditMode ? 'Update' : 'Submit' }} Reclamation
+                </button>
+                <button mat-button class="text-gray-600" type="button" (click)="goTo()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

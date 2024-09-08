@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
 
 // Add this constant at the top of your file
-const EXCLUDE_URLS = ['test'];
+const EXCLUDE_URLS = ['testetsttest'];
 
 let isRefreshing = false;
 
@@ -36,6 +36,7 @@ export const authInterceptor = (
         'Authorization',
         'Bearer ' + authService.accessToken
       ),
+      withCredentials: true,
     });
   }
 
@@ -54,7 +55,7 @@ export const authInterceptor = (
             newReq = req.clone({
               headers: req.headers.set(
                 'Authorization',
-                authService.accessToken
+                'Bearer ' + authService.accessToken
               ),
             });
             return next(newReq);
