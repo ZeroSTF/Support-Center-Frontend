@@ -50,8 +50,15 @@ export class AppointmentService {
     return this.http.get<any[]>(`${this.apiUrl}/expert/${expertId}`);
   }
 
-  updateAppointment(appointment: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/update`, appointment);
+  updateAppointment(
+    appointment: any,
+    userId: number,
+    expertId: number
+  ): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/update?userId=${userId}&expertId=${expertId}`,
+      appointment
+    );
   }
 
   deleteAppointment(id: number): Observable<void> {

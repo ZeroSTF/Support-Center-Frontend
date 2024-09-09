@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AppointmentService } from '../../services/appointment.service';
 import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,6 +35,11 @@ import { ExpertService } from '../../services/expert.service';
 export class AppointmentFormComponent implements OnInit {
   appointmentForm: FormGroup;
   currentUser: any;
+
+  isEditMode = false;
+  appointmentId: number | null = null;
+  appointment: any;
+
   experts: any[] = [];
 
   constructor(
@@ -43,7 +48,8 @@ export class AppointmentFormComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private expertService: ExpertService
+    private expertService: ExpertService,
+    private route: ActivatedRoute
   ) {
     this.appointmentForm = this.fb.group({
       expert: [''],
@@ -53,6 +59,24 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      if (params['id']) {
+        this.isEditMode = true;
+        this.appointmentId = +params['id'];
+        this.loadAppointment(this.appointmentId);
+      } else {
+        // Retrieve the appointment data from the service
+        const appointmentData = this.appointmentService.getAppointmentData();
+
+        if (appointmentData) {
+          this.appointmentForm.patchValue({
+            expert: appointmentData.expert.name, // or ID
+            date: new Date(appointmentData.date),
+            availabilityId: appointmentData.availabilityId,
+          });
+        }
+      }
+    });
     // Get the experts
     this.expertService
       .getAllExperts()
@@ -61,47 +85,76 @@ export class AppointmentFormComponent implements OnInit {
     this.userService.get().subscribe((user) => {
       this.currentUser = user;
     });
+  }
 
-    // Retrieve the appointment data from the service
-    const appointmentData = this.appointmentService.getAppointmentData();
-
-    if (appointmentData) {
-      this.appointmentForm.patchValue({
-        expert: appointmentData.expert.name, // or ID
-        date: appointmentData.date,
-        availabilityId: appointmentData.availabilityId,
-      });
-    }
+  loadAppointment(id: number): void {
+    this.appointmentService.getAppointmentById(id).subscribe(
+      (appointment) => {
+        this.appointment = appointment;
+        console.log('Appointment:', this.appointment);
+        this.appointmentForm.patchValue({
+          expert: appointment.expert.name, // or ID
+          date: new Date(appointment.date),
+          availabilityId: appointment.availabilityId,
+        });
+      },
+      (error) => console.error('Error loading reclamation:', error)
+    );
   }
 
   onSubmit(): void {
     if (this.appointmentForm.valid) {
       const appointment = {
         date: this.appointmentForm.value.date,
-        //user: this.currentUser, // The logged-in user
       };
-
-      // Call service to save the appointment
-      this.appointmentService
-        .createAppointment(
-          appointment,
-          this.currentUser.id,
-          this.appointmentForm.value.expert
-        )
-        .subscribe(
-          (response) => {
-            this.snackBar.open('Appointment successfully booked', 'Close', {
-              duration: 3000,
-            });
-            this.router.navigate(['/calendar']); // Navigate back to calendar after success
-          },
-          (error) => {
-            console.error('Error adding appointment', error);
-            this.snackBar.open('Error booking appointment', 'Close', {
-              duration: 3000,
-            });
-          }
-        );
+      if (!this.isEditMode) {
+        // Call service to save the appointment
+        this.appointmentService
+          .createAppointment(
+            appointment,
+            this.currentUser.id,
+            this.appointmentForm.value.expert
+          )
+          .subscribe(
+            (response) => {
+              this.snackBar.open('Appointment successfully booked', 'Close', {
+                duration: 3000,
+              });
+              this.router.navigate(['/appointments']);
+            },
+            (error) => {
+              console.error('Error adding appointment', error);
+              this.snackBar.open('Error booking appointment', 'Close', {
+                duration: 3000,
+              });
+            }
+          );
+      } else {
+        this.appointment.date = this.appointmentForm.value.date;
+        this.appointment.user = null;
+        this.appointment.expert = null;
+        // Call service to update the appointment
+        this.appointmentService
+          .updateAppointment(
+            appointment,
+            this.currentUser.id,
+            this.appointmentForm.value.expert
+          )
+          .subscribe(
+            (response) => {
+              this.snackBar.open('Appointment successfully updated', 'Close', {
+                duration: 3000,
+              });
+              this.router.navigate(['/appointments']);
+            },
+            (error) => {
+              console.error('Error updating appointment', error);
+              this.snackBar.open('Error updating appointment', 'Close', {
+                duration: 3000,
+              });
+            }
+          );
+      }
     }
   }
 }

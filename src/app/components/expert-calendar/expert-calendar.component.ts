@@ -158,6 +158,7 @@ export class ExpertCalendarComponent implements OnInit {
       availabilityId: availabilityId,
     });
 
+    console.log('the date is: ', new Date(date));
     // Navigate to the appointment form component
     this.router.navigate(['/appointment-form']);
   }

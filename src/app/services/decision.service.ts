@@ -32,11 +32,15 @@ export class DecisionService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  updateDecision(decision: any): Observable<any> {
-    console.log(decision);
-    return this.http.put(`${this.apiUrl}/update`, decision, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+  updateDecision(
+    decision: any,
+    reclamationId: number,
+    adminId: number
+  ): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/update?reclamationId=${reclamationId}&adminId=${adminId}`,
+      decision
+    );
   }
 
   deleteDecision(id: number): Observable<void> {

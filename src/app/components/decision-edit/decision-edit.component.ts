@@ -79,22 +79,25 @@ export class DecisionEditComponent implements OnInit {
   onSubmit(): void {
     if (this.decisionForm.valid) {
       this.decision.description = this.decisionForm.value.description;
-      this.decision.admin = this.currentUser;
+      const reclamationId = this.decision.reclamation.id;
+      this.decision.reclamation = null;
 
-      this.decisionService.updateDecision(this.decision).subscribe(
-        (response) => {
-          this.snackBar.open('Decision updated successfully', 'Close', {
-            duration: 3000,
-          });
-          this.router.navigate(['/decisions']);
-        },
-        (error) => {
-          console.error('Error updating decision', error);
-          this.snackBar.open('Error updating decision', 'Close', {
-            duration: 3000,
-          });
-        }
-      );
+      this.decisionService
+        .updateDecision(this.decision, reclamationId, this.currentUser.id)
+        .subscribe(
+          (response) => {
+            this.snackBar.open('Decision updated successfully', 'Close', {
+              duration: 3000,
+            });
+            this.router.navigate(['/decisions']);
+          },
+          (error) => {
+            console.error('Error updating decision', error);
+            this.snackBar.open('Error updating decision', 'Close', {
+              duration: 3000,
+            });
+          }
+        );
     }
   }
 }

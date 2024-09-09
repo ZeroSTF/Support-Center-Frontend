@@ -59,6 +59,7 @@ export const routes: Routes = [
 
       { path: 'appointments', component: AppointmentListComponent },
       { path: 'appointment-form', component: AppointmentFormComponent },
+      { path: 'appointment/edit/:id', component: AppointmentFormComponent },
     ],
   },
 ];
