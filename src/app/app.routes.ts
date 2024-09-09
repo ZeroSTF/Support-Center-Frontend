@@ -12,6 +12,9 @@ import { DecisionListComponent } from './components/decision-list/decision-list.
 import { ExpertListComponent } from './components/expert-list/expert-list.component';
 import { DecisionEditComponent } from './components/decision-edit/decision-edit.component';
 import { ReclamationDetailsComponent } from './components/reclamation-details/reclamation-details.component';
+import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
+import { ExpertCalendarComponent } from './components/expert-calendar/expert-calendar.component';
+import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -42,6 +45,7 @@ export const routes: Routes = [
       { path: 'reclamations', component: ReclamationListComponent },
       { path: 'reclamation/new', component: ReclamationFormComponent },
       { path: 'reclamation/edit/:id', component: ReclamationFormComponent },
+
       { path: 'reclamation/:id/decide', component: DecisionFormComponent },
       {
         path: 'reclamation/:id/decision',
@@ -49,7 +53,12 @@ export const routes: Routes = [
       },
       { path: 'decisions', component: DecisionListComponent },
       { path: 'decision/edit/:id', component: DecisionEditComponent },
+
       { path: 'experts', component: ExpertListComponent },
+      { path: 'calendar', component: ExpertCalendarComponent },
+
+      { path: 'appointments', component: AppointmentListComponent },
+      { path: 'appointment-form', component: AppointmentFormComponent },
     ],
   },
 ];

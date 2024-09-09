@@ -7,8 +7,21 @@ import { Observable } from 'rxjs';
 })
 export class AppointmentService {
   private apiUrl = 'http://localhost:8080/appointment';
+  private appointmentData: any = null;
 
   constructor(private http: HttpClient) {}
+
+  setAppointmentData(data: any): void {
+    this.appointmentData = data;
+  }
+
+  getAppointmentData(): any {
+    return this.appointmentData;
+  }
+
+  clearAppointmentData(): void {
+    this.appointmentData = null;
+  }
 
   createAppointment(
     appointment: any,

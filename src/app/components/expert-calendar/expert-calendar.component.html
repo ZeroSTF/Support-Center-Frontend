@@ -1,1 +1,82 @@
-<p>expert-calendar works!</p>
+<div class="container mx-auto p-4">
+    <mat-card class="mb-4">
+        <mat-card-content>
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <mat-form-field class="w-full md:w-1/3 mb-4 md:mb-0">
+                    <mat-label>Select Expert Type</mat-label>
+                    <mat-select [(ngModel)]="selectedExpertType" (selectionChange)="onExpertTypeChange()">
+                        <mat-option *ngFor="let type of expertTypes" [value]="type">
+                            {{type}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-full md:w-1/3" *ngIf="experts.length > 0">
+                    <mat-label>Select Expert</mat-label>
+                    <mat-select [(ngModel)]="selectedExpert" (selectionChange)="onExpertChange()">
+                        <mat-option *ngFor="let expert of experts" [value]="expert">
+                            {{expert.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="selectedExpert">
+        <mat-card-header>
+            <mat-card-title>{{selectedExpert.name}}'s Calendar</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="calendar-container">
+                <div class="calendar-header flex justify-between items-center mb-4">
+                    <div>
+                        <button mat-button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+                            Previous
+                        </button>
+                        <button mat-button mwlCalendarToday [(viewDate)]="viewDate">
+                            Today
+                        </button>
+                        <button mat-button mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+                            Next
+                        </button>
+                    </div>
+                    <h3 class="text-lg font-semibold">{{ viewDate | date:'MMMM d, y' }}</h3>
+                    <div>
+                        <button mat-button (click)="view = CalendarView.Month"
+                            [class.bg-blue-500]="view === CalendarView.Month">
+                            Month
+                        </button>
+                        <button mat-button (click)="view = CalendarView.Week"
+                            [class.bg-blue-500]="view === CalendarView.Week">
+                            Week
+                        </button>
+                        <button mat-button (click)="view = CalendarView.Day"
+                            [class.bg-blue-500]="view === CalendarView.Day">
+                            Day
+                        </button>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="!isLoading; else loadingSpinner">
+                    <mwl-calendar-month-view *ngIf="view === CalendarView.Month" [viewDate]="viewDate" [events]="events"
+                        [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event)"
+                        (eventClicked)="eventClicked($event.event)">
+                    </mwl-calendar-month-view>
+                    <mwl-calendar-week-view *ngIf="view === CalendarView.Week" [viewDate]="viewDate" [events]="events"
+                        (eventClicked)="eventClicked($event.event)">
+                    </mwl-calendar-week-view>
+                    <mwl-calendar-day-view *ngIf="view === CalendarView.Day" [viewDate]="viewDate" [events]="events"
+                        (eventClicked)="eventClicked($event.event)">
+                    </mwl-calendar-day-view>
+                </ng-container>
+
+                <ng-template #loadingSpinner>
+                    <div class="flex justify-center items-center h-64">
+                        <mat-spinner></mat-spinner>
+                    </div>
+                </ng-template>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
